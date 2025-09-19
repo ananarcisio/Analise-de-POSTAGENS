@@ -71,6 +71,29 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sistema de armazenamento local
 let postagens = JSON.parse(localStorage.getItem('postagens')) || [];
 
+// Importar dados do arquivo JSON
+async function importarDados() {
+    try {
+        const response = await fetch('dados.json');
+        const dados = await response.json();
+        
+        if (dados.postagens && dados.postagens.length > 0) {
+            postagens = dados.postagens;
+            localStorage.setItem('postagens', JSON.stringify(postagens));
+            atualizarEstatisticas();
+            alert(`${dados.postagens.length} postagens importadas com sucesso!`);
+        }
+    } catch (error) {
+        console.error('Erro ao importar dados:', error);
+        alert('Erro ao importar dados. Verifique se o arquivo dados.json existe.');
+    }
+}
+
+// Importar dados automaticamente ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    importarDados();
+});
+
 // Adicionar nova postagem
 document.getElementById('postForm').addEventListener('submit', function(e) {
     e.preventDefault();

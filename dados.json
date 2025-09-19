@@ -1,0 +1,243 @@
+{
+  "postagens": [
+    {
+      "data": "2025-06-02",
+      "horario": "12:00",
+      "tipo": "savethedate",
+      "curtidas": 42,
+      "views": 1362,
+      "compartilhamentos": 5,
+      "timestamp": 1758305327626
+    },
+    {
+      "data": "2025-06-04",
+      "horario": "12:00",
+      "tipo": "savethedate",
+      "curtidas": 15,
+      "views": 674,
+      "compartilhamentos": 4,
+      "timestamp": 1758305362330
+    },
+    {
+      "data": "2025-06-09",
+      "horario": "12:00",
+      "tipo": "evento",
+      "curtidas": 16,
+      "views": 152,
+      "compartilhamentos": 0,
+      "timestamp": 1758305406506
+    },
+    {
+      "data": "2025-06-12",
+      "horario": "12:00",
+      "tipo": "jovens",
+      "curtidas": 18,
+      "views": 890,
+      "compartilhamentos": 6,
+      "timestamp": 1758305437250
+    },
+    {
+      "data": "2025-06-14",
+      "horario": "12:00",
+      "tipo": "reflexao",
+      "curtidas": 33,
+      "views": 827,
+      "compartilhamentos": 0,
+      "timestamp": 1758305494946
+    },
+    {
+      "data": "2025-06-25",
+      "horario": "12:00",
+      "tipo": "reflexao",
+      "curtidas": 23,
+      "views": 0,
+      "compartilhamentos": 3,
+      "timestamp": 1758305527210
+    },
+    {
+      "data": "2025-06-28",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 12,
+      "views": 0,
+      "compartilhamentos": 20,
+      "timestamp": 1758305571298
+    },
+    {
+      "data": "2025-07-02",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 7,
+      "views": 519,
+      "compartilhamentos": 3,
+      "timestamp": 1758305601770
+    },
+    {
+      "data": "2025-07-04",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 13,
+      "views": 1501,
+      "compartilhamentos": 5,
+      "timestamp": 1758305634594
+    },
+    {
+      "data": "2025-08-07",
+      "horario": "19:00",
+      "tipo": "evento",
+      "curtidas": 13,
+      "views": 176,
+      "compartilhamentos": 0,
+      "timestamp": 1758305672250
+    },
+    {
+      "data": "2025-08-09",
+      "horario": "19:00",
+      "tipo": "reflexao",
+      "curtidas": 37,
+      "views": 0,
+      "compartilhamentos": 1,
+      "timestamp": 1758305698602
+    },
+    {
+      "data": "2025-07-16",
+      "horario": "19:00",
+      "tipo": "evento",
+      "curtidas": 29,
+      "views": 882,
+      "compartilhamentos": 5,
+      "timestamp": 1758305731114
+    },
+    {
+      "data": "2025-07-19",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 14,
+      "views": 869,
+      "compartilhamentos": 3,
+      "timestamp": 1758305767554
+    },
+    {
+      "data": "2025-07-24",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 29,
+      "views": 0,
+      "compartilhamentos": 11,
+      "timestamp": 1758305786313
+    },
+    {
+      "data": "2025-07-28",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 19,
+      "views": 506,
+      "compartilhamentos": 3,
+      "timestamp": 1758305835922
+    },
+    {
+      "data": "2025-07-31",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 12,
+      "views": 684,
+      "compartilhamentos": 6,
+      "timestamp": 1758305874234
+    },
+    {
+      "data": "2025-08-11",
+      "horario": "19:00",
+      "tipo": "versiculo",
+      "curtidas": 16,
+      "views": 460,
+      "compartilhamentos": 4,
+      "timestamp": 1758305904906
+    },
+    {
+      "data": "2025-08-18",
+      "horario": "19:00",
+      "tipo": "reflexao",
+      "curtidas": 27,
+      "views": 1785,
+      "compartilhamentos": 1,
+      "timestamp": 1758305934634
+    },
+    {
+      "data": "2025-08-23",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 18,
+      "views": 0,
+      "compartilhamentos": 1,
+      "timestamp": 1758305956618
+    },
+    {
+      "data": "2025-08-25",
+      "horario": "19:00",
+      "tipo": "reflexao",
+      "curtidas": 14,
+      "views": 886,
+      "compartilhamentos": 6,
+      "timestamp": 1758305981810
+    },
+    {
+      "data": "2025-08-29",
+      "horario": "19:00",
+      "tipo": "jovens",
+      "curtidas": 12,
+      "views": 0,
+      "compartilhamentos": 5,
+      "timestamp": 1758306008593
+    },
+    {
+      "data": "2025-09-03",
+      "horario": "19:00",
+      "tipo": "savethedate",
+      "curtidas": 29,
+      "views": 697,
+      "compartilhamentos": 5,
+      "timestamp": 1758306034361
+    },
+    {
+      "data": "92025-06-07",
+      "horario": "19:00",
+      "tipo": "evento",
+      "curtidas": 17,
+      "views": 324,
+      "compartilhamentos": 2,
+      "timestamp": 1758306063105
+    },
+    {
+      "data": "2025-09-09",
+      "horario": "19:00",
+      "tipo": "evento",
+      "curtidas": 20,
+      "views": 0,
+      "compartilhamentos": 2,
+      "timestamp": 1758306085793
+    },
+    {
+      "data": "2025-09-15",
+      "horario": "19:00",
+      "tipo": "jovens",
+      "curtidas": 31,
+      "views": 540,
+      "compartilhamentos": 0,
+      "timestamp": 1758306123913
+    },
+    {
+      "data": "2025-09-18",
+      "horario": "19:00",
+      "tipo": "jovens",
+      "curtidas": 21,
+      "views": 352,
+      "compartilhamentos": 0,
+      "timestamp": 1758306147777
+    }
+  ],
+  "estatisticas": {
+    "totalPostagens": 26,
+    "mediaCurtidas": 20.653846153846153,
+    "mediaViews": 541.7692307692307
+  }
+}
