@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ananarcisio.github.io/Analise-de-POSTAGENS/sitemap.xml
