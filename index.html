@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igreja Social Analytics - Melhores Horários</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Igreja Social Analytics</h1>
+            <p>Análise dos melhores horários para postagens no Instagram</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Seguidores</h3>
+                <span class="stat-number">150+</span>
+            </div>
+            <div class="stat-card">
+                <h3>Média de Views</h3>
+                <span class="stat-number">850</span>
+            </div>
+            <div class="stat-card">
+                <h3>Curtidas Médias</h3>
+                <span class="stat-number">45</span>
+            </div>
+            <div class="stat-card">
+                <h3>Alcance Médio</h3>
+                <span class="stat-number">320</span>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="chart-container">
+                <h3>🕐 Melhores Horários (Público Jovem Cristão)</h3>
+                <canvas id="horariosChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>📅 Melhores Dias da Semana</h3>
+                <canvas id="diasChart"></canvas>
+            </div>
+
+            <div class="recommendations">
+                <h3>💡 Recomendações Personalizadas</h3>
+                <div class="rec-list">
+                    <div class="rec-item best">
+                        <strong>MELHOR:</strong> Domingo 18h-19h (Pós-culto)
+                    </div>
+                    <div class="rec-item good">
+                        <strong>BOM:</strong> Terça 19h-20h (Meio da semana)
+                    </div>
+                    <div class="rec-item good">
+                        <strong>BOM:</strong> Quinta 20h-21h (Pré-fim de semana)
+                    </div>
+                    <div class="rec-item average">
+                        <strong>MÉDIO:</strong> Sábado 16h-17h (Tarde de sábado)
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-container">
+                <h3>📋 Calendário de Postagens</h3>
+                <div id="calendario"></div>
+                <button onclick="gerarCalendario()">Atualizar Calendário</button>
+            </div>
+
+            <div class="hashtags-container">
+                <h3>🏷️ Hashtags Recomendadas</h3>
+                <div class="hashtags-grid">
+                    <div class="hashtag-category">
+                        <h4>Gerais</h4>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#fe</span>
+                            <span class="hashtag">#jesus</span>
+                            <span class="hashtag">#deus</span>
+                            <span class="hashtag">#cristo</span>
+                            <span class="hashtag">#biblia</span>
+                        </div>
+                    </div>
+                    <div class="hashtag-category">
+                        <h4>Jovens</h4>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#jovenscristas</span>
+                            <span class="hashtag">#juventude</span>
+                            <span class="hashtag">#geracaojesus</span>
+                            <span class="hashtag">#jovensnaigreja</span>
+                        </div>
+                    </div>
+                    <div class="hashtag-category">
+                        <h4>Inspiracionais</h4>
+                        <div class="hashtag-list">
+                            <span class="hashtag">#motivacao</span>
+                            <span class="hashtag">#esperanca</span>
+                            <span class="hashtag">#amor</span>
+                            <span class="hashtag">#paz</span>
+                            <span class="hashtag">#gratidao</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-input">
+            <h3>📈 Adicionar Nova Postagem</h3>
+            <form id="postForm">
+                <div class="form-row">
+                    <input type="date" id="data" required>
+                    <input type="time" id="horario" required>
+                    <select id="tipo">
+                        <option value="versiculo">Versículo Inspiracional</option>
+                        <option value="reflexao">Reflexão Diária</option>
+                        <option value="evento">Evento/Culto</option>
+                        <option value="testemunho">Testemunho</option>
+                        <option value="louvor">Música/Louvor</option>
+                        <option value="oracao">Oração</option>
+                        <option value="jovens">Conteúdo Jovens</option>
+                        <option value="savethedate">Save the Date</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <input type="number" id="curtidas" placeholder="Curtidas" min="0">
+                    <input type="number" id="views" placeholder="Views" min="0">
+                    <input type="number" id="compartilhamentos" placeholder="Compartilhamentos" min="0">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+            
+            <div class="quick-actions">
+                <h4>Ações Rápidas</h4>
+                <button onclick="exportarDados()" class="btn-secondary">📄 Exportar Dados</button>
+                <button onclick="analisarMelhorHorario()" class="btn-secondary">🔍 Analisar Performance</button>
+                <button onclick="gerarRelatorio()" class="btn-secondary">📉 Gerar Relatório</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
