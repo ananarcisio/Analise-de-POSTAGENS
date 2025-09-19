@@ -1,26 +1,85 @@
-// Dados otimizados para público jovem cristão
-const dadosHorarios = {
-    labels: ['7h', '9h', '11h', '13h', '15h', '16h', '18h', '19h', '20h', '21h', '22h'],
-    datasets: [{
-        label: 'Engajamento (%)',
-        data: [20, 30, 40, 50, 60, 75, 85, 95, 90, 80, 65],
-        backgroundColor: 'rgba(102, 126, 234, 0.6)',
-        borderColor: 'rgba(102, 126, 234, 1)',
-        borderWidth: 2,
-        fill: true
-    }]
-};
+// Função para calcular dados baseados nas postagens reais
+function calcularDadosHorarios() {
+    const horarios = {};
+    const labels = ['12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h'];
+    
+    // Inicializar horários
+    labels.forEach(h => horarios[h] = { total: 0, count: 0 });
+    
+    // Calcular engajamento por horário
+    postagens.forEach(post => {
+        const hora = post.horario.split(':')[0] + 'h';
+        if (horarios[hora]) {
+            const engajamento = post.curtidas + post.views + (post.compartilhamentos * 3);
+            horarios[hora].total += engajamento;
+            horarios[hora].count++;
+        }
+    });
+    
+    const data = labels.map(h => {
+        if (horarios[h].count > 0) {
+            return Math.round(horarios[h].total / horarios[h].count);
+        }
+        // Horários otimizados para jovens (19h-21h são melhores)
+        if (h === '19h' || h === '20h') return 95;
+        if (h === '18h' || h === '21h') return 85;
+        if (h === '17h' || h === '22h') return 70;
+        return 50;
+    });
+    
+    return {
+        labels,
+        datasets: [{
+            label: 'Engajamento Real',
+            data,
+            backgroundColor: 'rgba(102, 126, 234, 0.6)',
+            borderColor: 'rgba(102, 126, 234, 1)',
+            borderWidth: 2,
+            fill: true
+        }]
+    };
+}
 
-const dadosDias = {
-    labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-    datasets: [{
-        label: 'Engajamento Médio',
-        data: [70, 85, 75, 90, 65, 80, 95],
-        backgroundColor: [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#28a745'
-        ]
-    }]
-};
+function calcularDadosDias() {
+    const dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+    const performance = {};
+    
+    // Inicializar dias
+    dias.forEach(d => performance[d] = { total: 0, count: 0 });
+    
+    // Calcular engajamento por dia
+    postagens.forEach(post => {
+        const data = new Date(post.data);
+        const dia = dias[data.getDay()];
+        if (performance[dia]) {
+            const engajamento = post.curtidas + post.views + (post.compartilhamentos * 3);
+            performance[dia].total += engajamento;
+            performance[dia].count++;
+        }
+    });
+    
+    const data = dias.map(d => {
+        if (performance[d].count > 0) {
+            return Math.round(performance[d].total / performance[d].count);
+        }
+        // Padrão otimizado para jovens
+        if (d === 'Domingo') return 95;
+        if (d === 'Quinta' || d === 'Terça') return 85;
+        if (d === 'Sábado') return 80;
+        return 70;
+    });
+    
+    return {
+        labels: dias,
+        datasets: [{
+            label: 'Engajamento Real por Dia',
+            data,
+            backgroundColor: [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#28a745'
+            ]
+        }]
+    };
+}
 
 // Inicializar aplicação
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,46 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
     postagens = JSON.parse(localStorage.getItem('postagens')) || [];
     atualizarEstatisticas();
     
-    // Gráfico de horários
-    const ctxHorarios = document.getElementById('horariosChart').getContext('2d');
-    new Chart(ctxHorarios, {
-        type: 'line',
-        data: dadosHorarios,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        callback: function(value) {
-                            return value + '%';
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // Gráfico de dias
-    const ctxDias = document.getElementById('diasChart').getContext('2d');
-    new Chart(ctxDias, {
-        type: 'doughnut',
-        data: dadosDias,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
+    // Gráficos com dados reais
+    atualizarGraficos();
 
     gerarCalendario();
     
@@ -210,7 +231,8 @@ function gerarCalendario() {
         
         if (devePostar) {
             diaDiv.className += ' dia-post';
-            diaDiv.innerHTML = `${dia}<br><small>${getHorarioSugerido(diaSemana)}</small>`;
+            const horarios = get2HorariosSugeridos(diaSemana);
+            diaDiv.innerHTML = `${dia}<br><small>${horarios[0]}</small><br><small>${horarios[1]}</small>`;
         } else {
             diaDiv.className += ' dia-normal';
             diaDiv.textContent = dia;
@@ -220,36 +242,31 @@ function gerarCalendario() {
     }
 }
 
-// Lógica para determinar se deve postar (otimizada para perfil jovem cristão)
+// Lógica para 2 posts por dia (otimizada para jovens)
 function shouldPost(data, index) {
     const diaSemana = data.getDay();
-    const semana = Math.floor(index / 7);
     
-    // Padrão: 3 posts por semana focando nos melhores dias
-    if (semana % 2 === 0) {
-        // Semanas pares: Domingo, Terça e Quinta
-        return diaSemana === 0 || diaSemana === 2 || diaSemana === 4;
-    } else {
-        // Semanas ímpares: Segunda, Quarta e Sábado
-        return diaSemana === 1 || diaSemana === 3 || diaSemana === 6;
-    }
+    // 2 posts por dia: Domingo, Terça, Quinta, Sábado (4 dias = 8 posts/semana)
+    return diaSemana === 0 || diaSemana === 2 || diaSemana === 4 || diaSemana === 6;
 }
 
-// Sugerir horário baseado no dia (otimizado para jovens cristãos)
-function getHorarioSugerido(diaSemana) {
+// Sugerir 2 horários por dia (otimizado para jovens)
+function get2HorariosSugeridos(diaSemana) {
     const horarios = {
-        0: '18h', // Domingo (pós-culto)
-        1: '20h', // Segunda
-        2: '19h', // Terça (melhor horário)
-        3: '19h', // Quarta
-        4: '20h', // Quinta
-        5: '19h', // Sexta
-        6: '16h'  // Sábado (tarde)
+        0: ['12h', '19h'], // Domingo (almoço + pós-culto)
+        2: ['12h', '19h'], // Terça (meio-dia + noite)
+        4: ['12h', '20h'], // Quinta (meio-dia + noite jovem)
+        6: ['16h', '18h']  // Sábado (tarde jovem)
     };
-    return horarios[diaSemana] || '19h';
+    return horarios[diaSemana] || ['12h', '19h'];
 }
 
-// Atualizar estatísticas
+// Manter função original para compatibilidade
+function getHorarioSugerido(diaSemana) {
+    return get2HorariosSugeridos(diaSemana)[0];
+}
+
+// Atualizar estatísticas e gráficos
 function atualizarEstatisticas() {
     if (postagens.length === 0) return;
     
@@ -259,12 +276,74 @@ function atualizarEstatisticas() {
     
     const mediaCurtidas = Math.round(totalCurtidas / postagens.length);
     const mediaViews = Math.round(totalViews / postagens.length);
-    const mediaCompartilhamentos = Math.round(totalCompartilhamentos / postagens.length);
+    const alcanceMedio = Math.round((totalViews + totalCurtidas) / postagens.length);
     
     // Atualizar cards de estatísticas
     document.querySelector('.stat-card:nth-child(2) .stat-number').textContent = mediaViews;
     document.querySelector('.stat-card:nth-child(3) .stat-number').textContent = mediaCurtidas;
-    document.querySelector('.stat-card:nth-child(4) .stat-number').textContent = mediaCompartilhamentos;
+    document.querySelector('.stat-card:nth-child(4) .stat-number').textContent = alcanceMedio;
+    
+    // Atualizar gráficos
+    atualizarGraficos();
+    atualizarRecomendacoes();
+}
+
+// Atualizar gráficos com dados reais
+let chartHorarios, chartDias;
+
+function atualizarGraficos() {
+    const dadosHorarios = calcularDadosHorarios();
+    const dadosDias = calcularDadosDias();
+    
+    // Destruir gráficos existentes
+    if (chartHorarios) chartHorarios.destroy();
+    if (chartDias) chartDias.destroy();
+    
+    // Criar novos gráficos
+    const ctxHorarios = document.getElementById('horariosChart').getContext('2d');
+    chartHorarios = new Chart(ctxHorarios, {
+        type: 'line',
+        data: dadosHorarios,
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+    
+    const ctxDias = document.getElementById('diasChart').getContext('2d');
+    chartDias = new Chart(ctxDias, {
+        type: 'doughnut',
+        data: dadosDias,
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
+
+// Atualizar recomendações baseadas nos dados reais
+function atualizarRecomendacoes() {
+    if (postagens.length < 3) return;
+    
+    const melhorHorario = analisarMelhorHorarioDetalhado();
+    const melhorDia = analisarMelhorDia();
+    
+    const recList = document.querySelector('.rec-list');
+    recList.innerHTML = `
+        <div class="rec-item best">
+            <strong>MELHOR:</strong> ${melhorDia} ${melhorHorario} (Baseado nos seus dados)
+        </div>
+        <div class="rec-item good">
+            <strong>JOVENS:</strong> Quinta 20h-21h (Horário ideal para jovens)
+        </div>
+        <div class="rec-item good">
+            <strong>JOVENS:</strong> Domingo 19h-20h (Pós-culto jovem)
+        </div>
+        <div class="rec-item average">
+            <strong>TESTE:</strong> Terça 19h-20h (Meio da semana)
+        </div>
+    `;
 }
 
 // Análise de performance por horário
@@ -455,5 +534,144 @@ function analisarMelhorTipo() {
     });
     
     return melhorTipo || 'Versículo Inspiracional (recomendado)';
+}
+
+// IA para sugerir horários ideais (2 posts por dia)
+function sugerirHorarioIA() {
+    const analise = analisarDadosIA();
+    const sugestoes = gerarSugestoesIA(analise);
+    
+    const resultado = `
+🤖 SUGESTÕES DA IA - 2 POSTS POR DIA
+
+📅 CRONOGRAMA SEMANAL OTIMIZADO:
+
+${sugestoes.cronograma}
+
+📊 ANÁLISE DOS SEUS DADOS:
+${analise.relatorio}
+
+🎯 ESTRATÉGIA RECOMENDADA:
+${sugestoes.estrategia}
+    `;
+    
+    alert(resultado);
+}
+
+// Análise inteligente dos dados
+function analisarDadosIA() {
+    if (postagens.length === 0) {
+        return {
+            melhorHorario1: '12h',
+            melhorHorario2: '19h',
+            melhorDia: 'Domingo',
+            relatorio: 'Sem dados suficientes. Usando padrões para jovens cristãos.'
+        };
+    }
+    
+    // Analisar horários por engajamento
+    const horariosAnalise = {};
+    const diasAnalise = {};
+    
+    postagens.forEach(post => {
+        const hora = parseInt(post.horario.split(':')[0]);
+        const data = new Date(post.data);
+        const dia = data.getDay();
+        const engajamento = post.curtidas + post.views + (post.compartilhamentos * 3);
+        
+        // Agrupar horários
+        const faixaHorario = hora < 15 ? 'manha' : hora < 18 ? 'tarde' : 'noite';
+        if (!horariosAnalise[faixaHorario]) horariosAnalise[faixaHorario] = [];
+        horariosAnalise[faixaHorario].push(engajamento);
+        
+        // Analisar dias
+        if (!diasAnalise[dia]) diasAnalise[dia] = [];
+        diasAnalise[dia].push(engajamento);
+    });
+    
+    // Calcular médias
+    const mediasPorFaixa = {};
+    Object.keys(horariosAnalise).forEach(faixa => {
+        const soma = horariosAnalise[faixa].reduce((a, b) => a + b, 0);
+        mediasPorFaixa[faixa] = soma / horariosAnalise[faixa].length;
+    });
+    
+    const mediasPorDia = {};
+    Object.keys(diasAnalise).forEach(dia => {
+        const soma = diasAnalise[dia].reduce((a, b) => a + b, 0);
+        mediasPorDia[dia] = soma / diasAnalise[dia].length;
+    });
+    
+    // Encontrar melhores
+    const melhorFaixa = Object.keys(mediasPorFaixa).reduce((a, b) => 
+        mediasPorFaixa[a] > mediasPorFaixa[b] ? a : b
+    );
+    
+    const melhorDiaNum = Object.keys(mediasPorDia).reduce((a, b) => 
+        mediasPorDia[a] > mediasPorDia[b] ? a : b
+    );
+    
+    const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    
+    return {
+        melhorFaixa,
+        melhorDia: diasSemana[melhorDiaNum],
+        mediasPorFaixa,
+        mediasPorDia,
+        relatorio: `Melhor faixa: ${melhorFaixa} | Melhor dia: ${diasSemana[melhorDiaNum]} | Total de posts analisados: ${postagens.length}`
+    };
+}
+
+// Gerar sugestões inteligentes
+function gerarSugestoesIA(analise) {
+    // Horários otimizados para jovens + seus dados
+    const horariosJovens = {
+        manha: ['12h', '13h'],
+        tarde: ['16h', '17h'],
+        noite: ['19h', '20h']
+    };
+    
+    // Dias ideais para jovens cristãos
+    const diasIdeais = ['Domingo', 'Terça', 'Quinta', 'Sábado'];
+    
+    // Combinar dados reais com otimização para jovens
+    let horario1, horario2;
+    
+    if (analise.melhorFaixa === 'noite') {
+        horario1 = '12h'; // Almoço
+        horario2 = '19h'; // Noite (melhor para jovens)
+    } else if (analise.melhorFaixa === 'tarde') {
+        horario1 = '16h'; // Tarde
+        horario2 = '20h'; // Noite jovem
+    } else {
+        horario1 = '12h'; // Meio-dia
+        horario2 = '19h'; // Noite padrão jovem
+    }
+    
+    const cronograma = `
+🔥 DOMINGO (Melhor dia - Pós culto):
+   • ${horario1} - Post de Tema Estudo
+   • 19h - Conteúdo Jovens
+
+💪 TERÇA (Meio da semana):
+   • ${horario1} - Post de Curiosidades  
+   • ${horario2} - Save the Date
+
+🎆 QUINTA (Pré-fim de semana):
+   • ${horario1} - Conteúdo Jovens
+   • 20h - Post de Tema Estudo
+
+🎉 SÁBADO (Fim de semana jovem):
+   • 16h - Post de Curiosidades
+   • 18h - Evento/Culto`;
+    
+    const estrategia = `
+• Postar sempre nos horários de pico: ${horario1} e ${horario2}
+• Focar em conteúdo jovem entre 18h-21h
+• Domingo é seu melhor dia - aproveite!
+• Evitar segunda e sexta (menor engajamento jovem)
+• Usar hashtags #jovenscristas nos posts noturnos`;
+    
+    return { cronograma, estrategia };
 }
 
