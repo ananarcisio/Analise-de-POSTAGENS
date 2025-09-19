@@ -22,8 +22,12 @@ const dadosDias = {
     }]
 };
 
-// Inicializar gráficos
+// Inicializar aplicação
 document.addEventListener('DOMContentLoaded', function() {
+    // Carregar dados do localStorage
+    postagens = JSON.parse(localStorage.getItem('postagens')) || [];
+    atualizarEstatisticas();
+    
     // Gráfico de horários
     const ctxHorarios = document.getElementById('horariosChart').getContext('2d');
     new Chart(ctxHorarios, {
@@ -66,55 +70,97 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     gerarCalendario();
+    
+    // Configurar hashtags clicáveis
+    setTimeout(() => {
+        document.querySelectorAll('.hashtag').forEach(hashtag => {
+            hashtag.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    this.style.background = '#28a745';
+                    this.style.color = 'white';
+                    setTimeout(() => {
+                        this.style.background = '#f8f9fa';
+                        this.style.color = '#667eea';
+                    }, 1000);
+                });
+            });
+        });
+    }, 1000);
+    
+    // Configurar formulário
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const novaPostagem = {
+            data: document.getElementById('data').value,
+            horario: document.getElementById('horario').value,
+            tipo: document.getElementById('tipo').value,
+            curtidas: parseInt(document.getElementById('curtidas').value) || 0,
+            views: parseInt(document.getElementById('views').value) || 0,
+            compartilhamentos: parseInt(document.getElementById('compartilhamentos').value) || 0,
+            timestamp: new Date().getTime()
+        };
+        
+        postagens.push(novaPostagem);
+        localStorage.setItem('postagens', JSON.stringify(postagens));
+        
+        alert('Postagem adicionada com sucesso!');
+        this.reset();
+        atualizarEstatisticas();
+    });
 });
 
 // Sistema de armazenamento local
 let postagens = JSON.parse(localStorage.getItem('postagens')) || [];
 
-// Importar dados do arquivo JSON
-async function importarDados() {
+// Importar dados do arquivo JSON padrão
+function importarDados() {
     try {
-        const response = await fetch('dados.json');
-        const dados = await response.json();
-        
-        if (dados.postagens && dados.postagens.length > 0) {
-            postagens = dados.postagens;
-            localStorage.setItem('postagens', JSON.stringify(postagens));
-            atualizarEstatisticas();
-            alert(`${dados.postagens.length} postagens importadas com sucesso!`);
-        }
+        fetch('dados.json')
+            .then(response => response.json())
+            .then(dados => {
+                if (dados.postagens) {
+                    postagens = dados.postagens;
+                    localStorage.setItem('postagens', JSON.stringify(postagens));
+                    atualizarEstatisticas();
+                    alert(`${dados.postagens.length} postagens importadas!`);
+                }
+            })
+            .catch(() => {
+                alert('Arquivo dados.json não encontrado');
+            });
     } catch (error) {
-        console.error('Erro ao importar dados:', error);
-        alert('Erro ao importar dados. Verifique se o arquivo dados.json existe.');
+        alert('Erro ao importar dados');
     }
 }
 
-// Importar dados automaticamente ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
-    importarDados();
-});
-
-// Adicionar nova postagem
-document.getElementById('postForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Importar arquivo JSON personalizado
+function importarArquivo(event) {
+    const file = event.target.files[0];
+    if (!file) return;
     
-    const novaPostagem = {
-        data: document.getElementById('data').value,
-        horario: document.getElementById('horario').value,
-        tipo: document.getElementById('tipo').value,
-        curtidas: parseInt(document.getElementById('curtidas').value) || 0,
-        views: parseInt(document.getElementById('views').value) || 0,
-        compartilhamentos: parseInt(document.getElementById('compartilhamentos').value) || 0,
-        timestamp: new Date().getTime()
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const dados = JSON.parse(e.target.result);
+            if (dados.postagens) {
+                postagens = dados.postagens;
+                localStorage.setItem('postagens', JSON.stringify(postagens));
+                atualizarEstatisticas();
+                alert(`${dados.postagens.length} postagens importadas de ${file.name}!`);
+            } else {
+                alert('Formato inválido. O arquivo deve conter um objeto com "postagens"');
+            }
+        } catch (error) {
+            alert('Erro ao ler o arquivo JSON');
+        }
     };
-    
-    postagens.push(novaPostagem);
-    localStorage.setItem('postagens', JSON.stringify(postagens));
-    
-    alert('Postagem adicionada com sucesso!');
-    this.reset();
-    atualizarEstatisticas();
-});
+    reader.readAsText(file);
+}
+
+
+
+
 
 // Gerar calendário de postagens
 function gerarCalendario() {
@@ -411,21 +457,3 @@ function analisarMelhorTipo() {
     return melhorTipo || 'Versículo Inspiracional (recomendado)';
 }
 
-// Copiar hashtag para clipboard
-document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar evento de clique nas hashtags
-    setTimeout(() => {
-        document.querySelectorAll('.hashtag').forEach(hashtag => {
-            hashtag.addEventListener('click', function() {
-                navigator.clipboard.writeText(this.textContent).then(() => {
-                    this.style.background = '#28a745';
-                    this.style.color = 'white';
-                    setTimeout(() => {
-                        this.style.background = '#f8f9fa';
-                        this.style.color = '#667eea';
-                    }, 1000);
-                });
-            });
-        });
-    }, 1000);
-});

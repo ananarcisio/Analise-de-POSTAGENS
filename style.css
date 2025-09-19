@@ -136,6 +136,12 @@ header h1 {
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
+@media (max-width: 768px) {
+    .hashtags-container {
+        grid-column: span 1;
+    }
+}
+
 .hashtags-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

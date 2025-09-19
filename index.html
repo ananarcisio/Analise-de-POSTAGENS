@@ -113,12 +113,9 @@
                     <input type="date" id="data" required>
                     <input type="time" id="horario" required>
                     <select id="tipo">
-                        <option value="versiculo">Versículo Inspiracional</option>
-                        <option value="reflexao">Reflexão Diária</option>
+                        <option value="versiculo">Post de Tema Estudo</option>
+                        <option value="reflexao">Post de Curiosidades</option>
                         <option value="evento">Evento/Culto</option>
-                        <option value="testemunho">Testemunho</option>
-                        <option value="louvor">Música/Louvor</option>
-                        <option value="oracao">Oração</option>
                         <option value="jovens">Conteúdo Jovens</option>
                         <option value="savethedate">Save the Date</option>
                     </select>
@@ -133,7 +130,9 @@
             
             <div class="quick-actions">
                 <h4>Ações Rápidas</h4>
-                <button onclick="importarDados()" class="btn-primary">📥 Importar Dados</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="importarArquivo(event)">
+                <button onclick="document.getElementById('fileInput').click()" class="btn-secondary">📁 Importar Arquivo</button>
+                <button onclick="importarDados()" class="btn-secondary">📥 Importar Dados Padrão</button>
                 <button onclick="exportarDados()" class="btn-secondary">📄 Exportar Dados</button>
                 <button onclick="analisarMelhorHorario()" class="btn-secondary">🔍 Analisar Performance</button>
                 <button onclick="gerarRelatorio()" class="btn-secondary">📉 Gerar Relatório</button>
