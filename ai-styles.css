@@ -1,0 +1,355 @@
+/* Estilos para IA Analytics */
+
+/* Modal da IA */
+.ai-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.ai-modal-content {
+    background: white;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.ai-insights-modal .ai-modal-content {
+    max-width: 800px;
+    max-height: 90vh;
+}
+
+.ai-modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-modal-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.ai-close {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.ai-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.ai-modal-body {
+    padding: 25px;
+}
+
+.ai-modal-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Configuração da IA */
+.ai-steps {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.ai-step {
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.ai-step:last-child {
+    border-bottom: none;
+}
+
+.ai-input-group {
+    margin: 20px 0;
+}
+
+.ai-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.ai-input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+}
+
+.ai-input-group input:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.ai-save-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.ai-save-btn:hover {
+    transform: translateY(-2px);
+}
+
+.ai-info {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.ai-info p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+/* Loading */
+.ai-loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.ai-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Insights */
+.ai-insights {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ai-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.ai-section h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.ai-trend, .ai-prediction {
+    background: white;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border-left: 3px solid #28a745;
+}
+
+.ai-recommendations, .ai-optimizations {
+    display: grid;
+    gap: 15px;
+}
+
+.ai-rec-category, .ai-opt-category {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #ffc107;
+}
+
+.ai-rec-category ul, .ai-opt-category ul {
+    margin: 10px 0 0 0;
+    padding-left: 20px;
+}
+
+.ai-rec-category li, .ai-opt-category li {
+    margin: 5px 0;
+    color: #555;
+}
+
+.ai-predictions {
+    display: grid;
+    gap: 10px;
+}
+
+.ai-hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ai-hashtags .hashtag {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ai-hashtags .hashtag:hover {
+    transform: scale(1.05);
+}
+
+/* Botões */
+.ai-export-btn {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.ai-export-btn:hover {
+    transform: translateY(-2px);
+}
+
+.ai-close-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.ai-close-btn:hover {
+    background: #5a6268;
+}
+
+/* Status da IA */
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.ai-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.ai-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.ai-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .ai-modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .ai-controls {
+        flex-direction: column;
+    }
+    
+    .ai-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .ai-modal-footer {
+        flex-direction: column;
+    }
+    
+    .ai-recommendations, .ai-optimizations {
+        grid-template-columns: 1fr;
+    }
+}
